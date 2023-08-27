@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { httpClient } from '../../../config/httpClient';
 import Cookies from 'js-cookie';
 
@@ -22,8 +22,9 @@ const reportError = (error: ReportError) => {
 }
 
 export const useLogin = () => {
+    const token = Cookies.get("token");
     const [loading, setLoading] = useState(false);
-    const [logged, setLogged] = useState(false);
+    const [logged, setLogged] = useState(() => !!token);
     const [error, setError] = useState("");
     
     const fecthLogin = useCallback(async (email: string, password: string): Promise<void> => {
